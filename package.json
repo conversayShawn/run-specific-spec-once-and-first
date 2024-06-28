@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node scripts/run-cypress.js"
+    "test": "node scripts/run-cypress.js  --record --parallel"
   },
   "keywords": [],
   "author": "",
