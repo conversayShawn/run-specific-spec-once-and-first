@@ -3,7 +3,9 @@ const cypress = require('cypress');
 process.env.RUNNING_SPECIFIC_SPEC = 'true';
 
 cypress.run({
-  spec: 'cypress/e2e/specific-spec.cy.js'
+  spec: 'cypress/e2e/specific-spec.cy.js',
+  record: true, 
+  parallel: true, 
 }).then((results) => {
   if (results.totalFailed > 0) {
     console.error('Specific spec failed');
