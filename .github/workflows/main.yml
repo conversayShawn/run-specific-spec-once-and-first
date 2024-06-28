@@ -53,12 +53,12 @@ jobs:
         uses: actions/checkout@v4
       - name: Install dependencies
         run: npm install
+      - name: Run specific spec
+        run: node scripts/run-specific-spec.js
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          command: npm run test
-          record: true
-          parallel: true
+          command: npx cypress run --record --parallel --ci-build-id ${{ github.run_id }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}

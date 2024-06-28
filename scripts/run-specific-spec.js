@@ -23,9 +23,10 @@ const { execSync } = require('child_process');
 process.env.RUNNING_SPECIFIC_SPEC = 'true';
 
 try {
-  execSync('npx cypress run --spec cypress/e2e/specific-spec.cy.js --record --parallel', { stdio: 'inherit' });
+  execSync('npx cypress run --spec cypress/e2e/specific-spec.cy.js --record --parallel --ci-build-id ${{ github.run_id }}-specific', { stdio: 'inherit' });
   process.exit(0);
 } catch (error) {
   console.error('Error running the specific spec:', error);
   process.exit(1);
 }
+
