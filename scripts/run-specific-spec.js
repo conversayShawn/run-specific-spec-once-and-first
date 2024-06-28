@@ -22,8 +22,12 @@ const { execSync } = require('child_process');
 
 process.env.RUNNING_SPECIFIC_SPEC = 'true';
 
+// Get the GitHub Actions token from environment variables
+const ciBuildId = process.env.GITHUB_TOKEN ? `${process.env.GITHUB_TOKEN}-specific` : 'local-specific';
+
 try {
-  execSync('npx cypress run --spec cypress/e2e/specific-spec.cy.js --record --parallel --ci-build-id ${{ github.run_id }}-specific', { stdio: 'inherit' });
+  // Use execSync to run Cypress with the ci-build-id
+  execSync(`npx cypress run --spec cypress/e2e/specific-spec.cy.js --record --parallel --ci-build-id ${ciBuildId}`, { stdio: 'inherit' });
   process.exit(0);
 } catch (error) {
   console.error('Error running the specific spec:', error);
