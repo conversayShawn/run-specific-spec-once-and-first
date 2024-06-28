@@ -1,16 +1,19 @@
-const { execSync } = require('child_process');
+const cypress = require('cypress');
 
-async function runCypress() {
-  try {
-    // Run the specific spec first
-    execSync('node scripts/run-specific-spec.js', { stdio: 'inherit' });
+process.env.RUNNING_SPECIFIC_SPEC = 'true';
 
-    // Run the rest of the Cypress tests
-    execSync('npx cypress run', { stdio: 'inherit' });
-  } catch (error) {
-    console.error('Error running Cypress tests:', error);
-    process.exit(1);
+cypress.run({
+  spec: 'cypress/e2e/specific-spec.cy.js',
+  record: true, 
+  parallel: true, 
+}).then((results) => {
+  if (results.totalFailed > 0) {
+    console.error('Specific spec failed');
+    process.exit(results.totalFailed);
+  } else {
+    process.exit(0);
   }
-}
-
-runCypress();
+}).catch((err) => {
+  console.error('Error running the specific spec:', err);
+  process.exit(1);
+});
